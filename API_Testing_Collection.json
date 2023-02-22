@@ -1,0 +1,438 @@
+{
+	"info": {
+		"_postman_id": "53dd9af3-37d2-47d7-bd99-47fe3bec5db1",
+		"name": "Grepsr Assessment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\":{\r\n        \"email\": \"sajina@test.com\",\r\n        \"password\": \"12345678\",\r\n        \"username\": \"Sajina\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/api/users",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"TOKEN\", data.user.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {\r\n        \"email\": \"sajina@test.com\",\r\n        \"password\": \"12345678\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/api/users/login",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\":{\r\n        \"email\": \"sajina@test.com\",\r\n        \"password\": \"12345678\"\r\n   }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/api/user",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Details",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{BASEURL}}/api/user",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Article",
+			"item": [
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"TOKEN\", data.user.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": {\r\n        \"email\": \"sajina@test.com\",\r\n        \"password\": \"12345678\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/api/users/login",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"ARTICLE_SLUG\", data.article.slug);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{TOKEN}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"article\": {\r\n        \"title\": \"Test Title\",\r\n        \"description\": \"Test Description\",\r\n        \"body\": \"Test Body\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/api/articles/",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Article is updated\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.article.slug).to.eql(\"test-title\");\r",
+									"    pm.expect(jsonData.article.title).to.eql(\"Updated Title\");\r",
+									"    pm.expect(jsonData.article.description).to.eql(\"Updated description\");\r",
+									"    pm.expect(jsonData.article.body).to.eql(\"Updated Body text\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{TOKEN}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"article\":\r\n    {\r\n       \"slug\": \"{{ARTICLE_SLUG}}\",\r\n       \"title\": \"Updated Title\",\r\n       \"description\" : \"Updated description\",\r\n       \"body\": \"Updated Body text\"\r\n    }\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/api/articles/{{ARTICLE_SLUG}}",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"{{ARTICLE_SLUG}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Single article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Article is retrieved\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.article.slug).to.eql(\"test-title\");\r",
+									"    pm.expect(jsonData.article.title).to.eql(\"Updated Title\");\r",
+									"    pm.expect(jsonData.article.description).to.eql(\"Updated description\");\r",
+									"    pm.expect(jsonData.article.body).to.eql(\"Updated Body text\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASEURL}}/api/articles/{{ARTICLE_SLUG}}",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"{{ARTICLE_SLUG}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Articles-KnownUsers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{TOKEN}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{BASEURL}}/api/articles/feed",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"feed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ReadArticle-GlobalFeed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Article is retrieved for known users\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.articles[0].slug).to.eql(\"test-title\");\r",
+									"    pm.expect(jsonData.articles[0].title).to.eql(\"Updated Title\");\r",
+									"    pm.expect(jsonData.articles[0].description).to.eql(\"Updated description\");\r",
+									"    pm.expect(jsonData.articles[0].body).to.eql(\"Updated Body text\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASEURL}}/api/articles/",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Article deleted\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Article deleted successfully\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{TOKEN}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{BASEURL}}/api/articles/{{ARTICLE_SLUG}}",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"{{ARTICLE_SLUG}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
